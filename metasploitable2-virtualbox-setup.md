@@ -1,150 +1,182 @@
-Metasploitable 2 Home Lab Setup (Using VirtualBox)
+# Metasploitable 2 Home Lab Setup (Using VirtualBox)
 
-This guide provides a step-by-step process for deploying the Metasploitable 2 vulnerable virtual machine in a home lab environment using Oracle VirtualBox.
-This VM will serve as a target for testing Suricata rules, validating detections in your SIEM, and practicing penetration testing techniques.
+This guide provides a step-by-step process for deploying the **Metasploitable 2** vulnerable virtual machine in a home lab environment using **Oracle VirtualBox**.  
+This VM will be used as a target for:
 
-1. Download Metasploitable 2
+- Testing Suricata IDS/IPS rules
+    
+- Validating detections inside your SIEM
+    
+- Practicing penetration testing and vulnerability assessment
+    
 
-Metasploitable is an intentionally vulnerable Linux VM created by Rapid7 for safe and legal security testing.
+---
 
-Official documentation:
-https://docs.rapid7.com/metasploit/metasploitable-2/
+## 1. Download Metasploitable 2
 
-Download the VM zip package from the official Rapid7 repository:
+**Metasploitable** is an intentionally vulnerable Linux VM created by Rapid7 for safe and legal security testing.
 
-Metasploitable 2 (VMDK ZIP):
-https://downloads.metasploit.com/data/metasploitable/metasploitable-linux-2.0.0.zip
+Official documentation:  
+[https://docs.rapid7.com/metasploit/metasploitable-2/](https://docs.rapid7.com/metasploit/metasploitable-2/)
 
-After downloading, extract the contents using any tool such as WinRAR or 7-Zip.
+Download the VM ZIP package:
 
-2. Extract the VM Files
+`https://downloads.metasploit.com/data/metasploitable/metasploitable-linux-2.0.0.zip`
 
-Once extracted, the folder will contain the following:
+After downloading, extract the archive using WinRAR, 7-Zip, or a similar tool.
 
-metasploitable.vmdk – virtual machine hard disk file
+---
 
-Additional VirtualBox VM configuration files
+## 2. Extract the VM Files
 
-These files will be used when importing the VM into VirtualBox.
+The extracted folder contains:
 
-3. Create a Virtual Machine in VirtualBox
+- `metasploitable.vmdk` – virtual machine hard disk
+    
+- Additional VirtualBox configuration files
+    
 
-Open Oracle VirtualBox.
+These files will be used when creating the VM in VirtualBox.
 
-Navigate to:
+---
 
-Tools → New
+## 3. Create a Virtual Machine in VirtualBox
 
-Fill out the VM details:
+1. Open **Oracle VirtualBox**.
+    
+2. Navigate to:
+    
 
-Name: Metasploitable2
+`Tools → New`
 
-Machine Folder: Choose your desired storage path
+3. Enter the following details:
+    
 
-Type: Linux
+- **Name:** Metasploitable2
+    
+- **Machine Folder:** Choose your preferred storage path
+    
+- **Type:** Linux
+    
+- **Version:** Other Linux (32-bit)
+    
 
-Version: Other Linux (32-bit)
+---
 
-Attach the Existing Virtual Disk
+## 4. Attach the Existing Virtual Disk
 
-Expand the Hard Disk section.
+1. Expand the **Hard Disk** section.
+    
+2. Select **Use an existing virtual hard disk file**.
+    
+3. Click the folder icon.
+    
+4. In the selector window, click **Add**.
+    
+5. Browse to the extracted folder and select:
+    
 
-Select Use an existing virtual hard disk file.
+`metasploitable.vmdk`
 
-Click the folder icon to open the disk selector.
+6. Click **Choose**, then **Finish**.
+    
 
-Click Add → browse to the extracted folder.
+VirtualBox will now create the VM using this disk.
 
-Select the file:
-metasploitable.vmdk
+---
 
-Click Choose, then click Finish.
+## 5. Configure Network Settings
 
-VirtualBox will now create the Metasploitable VM using the existing disk.
+To ensure your lab environment is consistent, change the network mode to **Bridged Adapter**.
 
-4. Configure the VM Network Settings
+1. Right-click the VM → **Settings**
+    
+2. Go to **Network**
+    
+3. Set **Attached to:** Bridged Adapter
+    
+4. Click **OK**
+    
 
-To ensure your lab environment is consistent, update the network mode to Bridged Adapter.
+This allows the VM to receive an IP address from your LAN, making it accessible to other lab systems.
 
-Right-click the virtual machine → Settings
+---
 
-Go to Network
+## 6. Start the Metasploitable VM
 
-Set Attached to: Bridged Adapter
+1. Select the VM.
+    
+2. Click **Start**.
+    
 
-Click OK
-
-Bridged mode ensures the Metasploitable VM receives an IP from your LAN, making it accessible from other lab systems.
-
-5. Start the Metasploitable VM
-
-Select the Metasploitable VM and click Start.
-
-The VM may take a few moments to boot. Once loaded, you will see the login prompt.
+Once the VM boots, you will see a login prompt.
 
 Default credentials:
 
-username: msfadmin
-password: msfadmin
+`username: msfadmin password: msfadmin`
 
+Log in with these credentials.
 
-Log in using these credentials.
+---
 
-6. Retrieve the Server’s IP Address
+## 7. Retrieve the Server’s IP Address
 
-After logging in, run:
+Inside the VM, run:
 
-ifconfig
+`ifconfig`
 
-
-Locate the IP address assigned to the VM.
-Example:
-
-192.168.1.150
-
-
-You will use this IP to access the vulnerable web applications.
-
-7. Access the Metasploitable Web Applications
-
-On your host machine, open a web browser.
-
-Navigate to:
-
-http://<metasploitable-server-ip>
-
+Identify the IP address assigned to the VM.
 
 Example:
 
-http://192.168.1.150
+`192.168.1.150`
 
+This IP address will be used to access the vulnerable applications.
 
-If the page does not load immediately, wait 2–3 minutes for all services to fully start.
+---
 
-Once loaded, you will see the Metasploitable landing page, which contains links to numerous intentionally vulnerable applications such as:
+## 8. Access the Metasploitable Web Applications
 
-DVWA
+On your host machine:
 
-Mutillidae
+1. Open a web browser.
+    
+2. Navigate to:
+    
 
-WebDAV directories
+`http://<metasploitable-ip>`
 
-phpMyAdmin
+Example:
 
-And more
+`http://192.168.1.150`
 
-Your Metasploitable Lab Target is Ready
+If the page does not load, wait **2–3 minutes** for all vulnerable services to finish starting.
 
-You now have a fully functional Metasploitable 2 instance running in your lab environment. This VM can now be used for:
+You will then see the Metasploitable 2 landing page, which includes access to applications such as:
 
-Suricata IDS/IPS rule testing
+- DVWA
+    
+- Mutillidae
+    
+- WebDAV directories
+    
+- phpMyAdmin
+    
+- Many more vulnerable services
+    
 
-SIEM correlation and alert validation
+---
 
-Vulnerability scanning
+## ✅ Your Metasploitable Lab Target Is Ready
 
-Penetration testing practice
+You now have a fully functional **Metasploitable 2** instance running in your lab environment. This VM can now be used for:
 
-Red/Blue/Purple team simulations
-
-If you want, I can also create a companion Suricata rule testing walkthrough, SIEM validation workflow, or network diagram in the same documentation style.
+- Suricata IDS/IPS rule testing
+    
+- SIEM alert correlation and validation
+    
+- Vulnerability scanning
+    
+- Penetration testing practice
+    
+- Red, Blue, and Purple Team simulations
